@@ -1,0 +1,1103 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Мастерская Черепахина — 3D-печать для рыбалки</title>
+    <link rel="icon" type="image/png" href="/Logo.png" />
+    <meta name="description" content="Мастерская Черепахина — кастомные аксессуары для рыбалки и лодок, изготовленные на 3D-принтере. Ротаторы, кронштейны, держатели, органайзеры." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet" />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --bg: #0f1419;
+        --bg-card: #182228;
+        --bg-elevated: #1e2a33;
+        --text: #e8eef2;
+        --text-muted: #8ba3b0;
+        --accent: #4db6a5;
+        --accent-hover: #5fd0bc;
+        --accent-dim: rgba(77, 182, 165, 0.15);
+        --border: rgba(255, 255, 255, 0.08);
+        --border-hover: rgba(77, 182, 165, 0.35);
+        --success: #4db6a5;
+        --warning: #e8a44a;
+        --error: #e85a5a;
+        --radius: 14px;
+        --radius-lg: 22px;
+        --max-w: 1120px;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: 'Manrope', system-ui, -apple-system, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.5;
+        font-weight: 400;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        overflow-x: hidden;
+      }
+
+      .container {
+        max-width: var(--max-w);
+        margin: 0 auto;
+        padding: 0 24px;
+      }
+
+      /* ===== Header ===== */
+      header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
+        transition: background 0.35s ease, border-color 0.35s ease, backdrop-filter 0.35s ease;
+        border-bottom: 1px solid transparent;
+      }
+
+      header.scrolled {
+        background: rgba(15, 20, 25, 0.88);
+        backdrop-filter: blur(16px);
+        border-bottom: 1px solid var(--border);
+      }
+
+      .header-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px 24px;
+        max-width: var(--max-w);
+        margin: 0 auto;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 800;
+        font-size: 1.05rem;
+        color: var(--text);
+        text-decoration: none;
+        letter-spacing: -0.02em;
+      }
+
+      .logo-mark {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: block;
+        object-fit: contain;
+        flex-shrink: 0;
+      }
+
+      .logo-text {
+        display: flex;
+        flex-direction: column;
+        line-height: 1.15;
+      }
+
+      .logo-text .brand {
+        font-size: 1rem;
+      }
+
+      .logo-text .sub {
+        font-size: 0.7rem;
+        font-weight: 500;
+        color: var(--text-muted);
+      }
+
+      nav {
+        display: flex;
+        gap: 28px;
+      }
+
+      nav a {
+        color: var(--text-muted);
+        text-decoration: none;
+        font-size: 0.88rem;
+        font-weight: 500;
+        transition: color 0.2s ease;
+      }
+
+      nav a:hover {
+        color: var(--accent);
+      }
+
+      .header-cta {
+        background: var(--accent);
+        color: var(--bg);
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 0.88rem;
+        padding: 10px 20px;
+        border-radius: 10px;
+        transition: background 0.2s ease, transform 0.2s ease;
+      }
+
+      .header-cta:hover {
+        background: var(--accent-hover);
+        transform: translateY(-1px);
+      }
+
+      /* ===== Hero ===== */
+      .hero {
+        position: relative;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+        padding-top: 80px;
+      }
+
+      .hero-bg {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+      }
+
+      .hero-bg img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0.35;
+      }
+
+      .hero-bg::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, rgba(15, 20, 25, 0.6) 0%, var(--bg) 100%);
+      }
+
+      .hero-content {
+        position: relative;
+        z-index: 1;
+        padding: 0 24px;
+        max-width: 820px;
+        margin: 0 auto;
+        text-align: center;
+      }
+
+      .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--accent-dim);
+        border: 1px solid rgba(77, 182, 165, 0.25);
+        padding: 8px 16px;
+        border-radius: 100px;
+        font-size: 0.82rem;
+        font-weight: 500;
+        color: var(--accent);
+        margin-bottom: 24px;
+        opacity: 0;
+        animation: fadeUp 0.7s 0.1s ease forwards;
+      }
+
+      .hero h1 {
+        font-size: clamp(2.2rem, 6vw, 3.6rem);
+        font-weight: 800;
+        line-height: 1.1;
+        letter-spacing: -0.03em;
+        margin-bottom: 20px;
+        opacity: 0;
+        animation: fadeUp 0.7s 0.2s ease forwards;
+      }
+
+      .hero h1 .accent {
+        color: var(--accent);
+      }
+
+      .hero p.lead {
+        font-size: clamp(1rem, 2.5vw, 1.25rem);
+        color: var(--text-muted);
+        max-width: 620px;
+        margin: 0 auto 36px;
+        line-height: 1.6;
+        opacity: 0;
+        animation: fadeUp 0.7s 0.3s ease forwards;
+      }
+
+      .hero-actions {
+        display: flex;
+        gap: 14px;
+        justify-content: center;
+        flex-wrap: wrap;
+        opacity: 0;
+        animation: fadeUp 0.7s 0.4s ease forwards;
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 14px 28px;
+        border-radius: 12px;
+        font-weight: 700;
+        font-size: 0.95rem;
+        text-decoration: none;
+        transition: all 0.2s ease;
+        cursor: pointer;
+        border: none;
+      }
+
+      .btn-primary {
+        background: var(--accent);
+        color: var(--bg);
+      }
+
+      .btn-primary:hover {
+        background: var(--accent-hover);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 30px rgba(77, 182, 165, 0.3);
+      }
+
+      .btn-secondary {
+        background: var(--bg-card);
+        color: var(--text);
+        border: 1px solid var(--border);
+      }
+
+      .btn-secondary:hover {
+        border-color: var(--border-hover);
+        background: var(--bg-elevated);
+        transform: translateY(-2px);
+      }
+
+      /* ===== About ===== */
+      .about {
+        padding: 100px 0;
+      }
+
+      .about-grid {
+        display: grid;
+        grid-template-columns: 1fr 1.5fr;
+        gap: 60px;
+        align-items: center;
+      }
+
+      .about-photo {
+        position: relative;
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        aspect-ratio: 4 / 5;
+      }
+
+      .about-photo img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.6s ease;
+      }
+
+      .about-photo:hover img {
+        transform: scale(1.05);
+      }
+
+      .about-photo::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: var(--radius-lg);
+        border: 1px solid var(--border);
+        pointer-events: none;
+      }
+
+      .about-text .section-label {
+        font-size: 0.8rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--accent);
+        margin-bottom: 16px;
+      }
+
+      .about-text h2 {
+        font-size: clamp(1.6rem, 4vw, 2.4rem);
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        margin-bottom: 24px;
+        line-height: 1.2;
+      }
+
+      .about-text p {
+        color: var(--text-muted);
+        margin-bottom: 18px;
+        font-size: 1.02rem;
+        line-height: 1.7;
+      }
+
+      .about-text p strong {
+        color: var(--text);
+        font-weight: 700;
+      }
+
+      .about-quote {
+        border-left: 3px solid var(--accent);
+        padding: 12px 0 12px 20px;
+        margin: 28px 0;
+        font-size: 1.1rem;
+        font-style: italic;
+        color: var(--text);
+        line-height: 1.6;
+      }
+
+      .signature {
+        margin-top: 28px;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+
+      .signature-avatar {
+        width: 52px;
+        height: 52px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--accent), #3a9888);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 800;
+        font-size: 1.3rem;
+        color: var(--bg);
+        flex-shrink: 0;
+      }
+
+      .signature-info .name {
+        font-weight: 700;
+        font-size: 1.05rem;
+      }
+
+      .signature-info .role {
+        font-size: 0.85rem;
+        color: var(--text-muted);
+      }
+
+      /* ===== Products ===== */
+      .products {
+        padding: 100px 0;
+        background: var(--bg-card);
+      }
+
+      .section-header {
+        text-align: center;
+        max-width: 640px;
+        margin: 0 auto 56px;
+      }
+
+      .section-header .section-label {
+        font-size: 0.8rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--accent);
+        margin-bottom: 14px;
+        display: block;
+      }
+
+      .section-header h2 {
+        font-size: clamp(1.6rem, 4vw, 2.4rem);
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        line-height: 1.2;
+        margin-bottom: 14px;
+      }
+
+      .section-header p {
+        color: var(--text-muted);
+        font-size: 1.02rem;
+      }
+
+      .products-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+      }
+
+      .product-card {
+        background: var(--bg-elevated);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        overflow: hidden;
+        transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .product-card:hover {
+        border-color: var(--border-hover);
+        transform: translateY(-4px);
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+      }
+
+      .product-card-img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        display: block;
+      }
+
+      .product-card-body {
+        padding: 22px;
+      }
+
+      .product-card .icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        background: var(--accent-dim);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 16px;
+        font-size: 1.4rem;
+      }
+
+      .product-card h3 {
+        font-size: 1.1rem;
+        font-weight: 700;
+        margin-bottom: 8px;
+      }
+
+      .product-card p {
+        font-size: 0.9rem;
+        color: var(--text-muted);
+        line-height: 1.6;
+      }
+
+      /* ===== Principles ===== */
+      .principles {
+        padding: 100px 0;
+      }
+
+      .principles-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 24px;
+      }
+
+      .principle-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 32px;
+        transition: border-color 0.3s ease, transform 0.3s ease;
+      }
+
+      .principle-card:hover {
+        border-color: var(--border-hover);
+        transform: translateY(-3px);
+      }
+
+      .principle-card .icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        background: var(--accent-dim);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
+        font-size: 1.5rem;
+      }
+
+      .principle-card h3 {
+        font-size: 1.15rem;
+        font-weight: 700;
+        margin-bottom: 10px;
+      }
+
+      .principle-card p {
+        color: var(--text-muted);
+        font-size: 0.92rem;
+        line-height: 1.65;
+      }
+
+      /* ===== Marketplaces ===== */
+      .marketplaces {
+        padding: 100px 0;
+        background: var(--bg-card);
+      }
+
+      .marketplace-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 24px;
+        max-width: 720px;
+        margin: 0 auto;
+      }
+
+      .marketplace-card {
+        background: var(--bg-elevated);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        padding: 32px;
+        text-decoration: none;
+        color: var(--text);
+        transition: all 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+      }
+
+      .marketplace-card:hover {
+        border-color: var(--border-hover);
+        transform: translateY(-4px);
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+      }
+
+      .marketplace-card .mp-icon {
+        width: 56px;
+        height: 56px;
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        font-weight: 800;
+        flex-shrink: 0;
+      }
+
+      .marketplace-card.avito .mp-icon {
+        background: rgba(0, 168, 255, 0.12);
+        color: #00a8ff;
+      }
+
+      .marketplace-card.ozon .mp-icon {
+        background: rgba(0, 87, 255, 0.12);
+        color: #0057ff;
+      }
+
+      .marketplace-card.wildberries .mp-icon {
+        background: rgba(204, 11, 48, 0.12);
+        color: #cb0b30;
+      }
+
+      .marketplace-card.market .mp-icon {
+        background: rgba(255, 204, 0, 0.12);
+        color: #ffcc00;
+      }
+
+      .marketplace-card h3 {
+        font-size: 1.2rem;
+        font-weight: 700;
+      }
+
+      .marketplace-card p {
+        font-size: 0.9rem;
+        color: var(--text-muted);
+        line-height: 1.55;
+      }
+
+      .marketplace-card .mp-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--accent);
+        font-weight: 700;
+        font-size: 0.88rem;
+        transition: gap 0.2s ease;
+        margin-top: auto;
+      }
+
+      .marketplace-card:hover .mp-link {
+        gap: 12px;
+      }
+
+      .marketplace-card.coming-soon {
+        opacity: 0.7;
+      }
+
+      .marketplace-card.coming-soon .mp-link {
+        color: var(--text-muted);
+        cursor: default;
+      }
+
+      .coming-soon-badge {
+        display: inline-block;
+        font-size: 0.72rem;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        background: rgba(255, 255, 255, 0.06);
+        color: var(--text-muted);
+        padding: 4px 10px;
+        border-radius: 6px;
+      }
+
+      /* ===== Contact / CTA ===== */
+      .contact {
+        padding: 100px 0;
+        text-align: center;
+      }
+
+      .contact-inner {
+        max-width: 640px;
+        margin: 0 auto;
+      }
+
+      .contact h2 {
+        font-size: clamp(1.8rem, 5vw, 2.8rem);
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        line-height: 1.2;
+        margin-bottom: 18px;
+      }
+
+      .contact p {
+        color: var(--text-muted);
+        font-size: 1.08rem;
+        margin-bottom: 36px;
+        line-height: 1.6;
+      }
+
+      .contact-actions {
+        display: flex;
+        gap: 14px;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      /* ===== Footer ===== */
+      footer {
+        border-top: 1px solid var(--border);
+        padding: 40px 0;
+      }
+
+      .footer-inner {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 16px;
+      }
+
+      .footer-inner .copyright {
+        font-size: 0.85rem;
+        color: var(--text-muted);
+      }
+
+      .footer-inner .copyright .brand {
+        color: var(--text);
+        font-weight: 600;
+      }
+
+      .footer-links {
+        display: flex;
+        gap: 20px;
+      }
+
+      .footer-links a {
+        color: var(--text-muted);
+        text-decoration: none;
+        font-size: 0.85rem;
+        transition: color 0.2s ease;
+      }
+
+      .footer-links a:hover {
+        color: var(--accent);
+      }
+
+      /* ===== Animations ===== */
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(24px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .reveal {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity 0.7s ease, transform 0.7s ease;
+      }
+
+      .reveal.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* ===== Mobile menu ===== */
+      .mobile-toggle {
+        display: none;
+        flex-direction: column;
+        gap: 5px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 6px;
+      }
+
+      .mobile-toggle span {
+        width: 24px;
+        height: 2px;
+        background: var(--text);
+        border-radius: 2px;
+        transition: all 0.3s ease;
+      }
+
+      /* ===== Responsive ===== */
+      @media (max-width: 900px) {
+        .about-grid {
+          grid-template-columns: 1fr;
+          gap: 40px;
+        }
+        .about-photo {
+          max-width: 320px;
+          margin: 0 auto;
+          aspect-ratio: 1;
+        }
+        .products-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .principles-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 720px) {
+        nav {
+          display: none;
+        }
+        .mobile-toggle {
+          display: flex;
+        }
+        .header-cta {
+          display: none;
+        }
+        .products-grid {
+          grid-template-columns: 1fr;
+        }
+        .marketplace-grid {
+          grid-template-columns: 1fr;
+        }
+        .hero {
+          min-height: 90vh;
+        }
+      }
+    </style>
+    <meta property="og:image" content="https://bolt.new/static/og_default.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://bolt.new/static/og_default.png">
+</head>
+  <body>
+    <!-- ===== Header ===== -->
+    <header id="header">
+      <div class="header-inner">
+        <a href="#hero" class="logo">
+          <img class="logo-mark" src="/Logo.png" alt="Логотип Мастерской Черепахина" />
+          <div class="logo-text">
+            <span class="brand">Мастерская Черепахина</span>
+            <span class="sub">3D-печать для рыбалки</span>
+          </div>
+        </a>
+        <nav>
+          <a href="#about">О мастере</a>
+          <a href="#products">Изделия</a>
+          <a href="#principles">Подход</a>
+          <a href="#marketplaces">Магазины</a>
+        </nav>
+        <a href="https://www.avito.ru/brands/420a2b983df6b48e661945f10a6c3cdc" target="_blank" rel="noopener" class="header-cta">Перейти в магазин</a>
+        <button class="mobile-toggle" id="mobileToggle" aria-label="Меню">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </header>
+
+    <!-- ===== Hero ===== -->
+    <section class="hero" id="hero">
+      <div class="hero-bg">
+        <img src="https://images.pexels.com/photos/2344572/pexels-photo-2344572.jpeg?auto=compress&cs=tinysrgb&h=650&w=940" alt="Лодка на тихой воде" loading="eager" />
+      </div>
+      <div class="hero-content">
+        <div class="hero-badge">
+          <span>🏭</span> 3D-печать · рыболовные аксессуары · обустройство лодок
+        </div>
+        <h1>Комфорт на воде начинается <span class="accent">с мелочей</span></h1>
+        <p class="lead">
+          Кастомные аксессуары для рыбалки и лодок: ротаторы, кронштейны, держатели удилищ, органайзеры и переходники — спроектированные и напечатанные на 3D-принтере с учётом реальных условий эксплуатации.
+        </p>
+        <div class="hero-actions">
+          <a href="#marketplaces" class="btn btn-primary">
+            Выбрать магазин
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a href="#about" class="btn btn-secondary">Узнать больше</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== About ===== -->
+    <section class="about" id="about">
+      <div class="container">
+        <div class="about-grid">
+          <div class="about-photo reveal">
+            <img src="https://images.pexels.com/photos/16843918/pexels-photo-16843918.jpeg?auto=compress&cs=tinysrgb&h=650&w=940" alt="Подготовка лодки к рыбалке" loading="lazy" />
+          </div>
+          <div class="about-text reveal">
+            <span class="section-label">О мастере</span>
+            <h2>Дмитрий Черепахин — инженер, рыболов, создатель мастерской</h2>
+            <p>
+              Здравствуйте! Меня зовут <strong>Дмитрий Черепахин</strong>. Я — инженер, увлеченный рыболов и основатель «Мастерской Черепахина». Рыбалка для меня — это любимое дело.
+            </p>
+            <p>
+              Я убеждён, что настоящий комфорт на водоёме начинается с мелочей: когда всё оборудование закреплено надёжно, приборы стоят на своих местах, а под рукой царит порядок.
+            </p>
+            <div class="about-quote">
+              «Я делаю вещи как для себя. Если что-то пошло не так — заменю деталь без лишних вопросов.»
+            </div>
+            <p>
+              Мои изделия берут как увлечённые рыболовы, так и лодочные сервисы и студии тюнинга — для оснащения и модернизации катеров своих клиентов. Все новинки я проверяю на собственных выездах, прислушиваюсь к отзывам и постоянно дорабатываю конструкции.
+            </p>
+            <div class="signature">
+              <div class="signature-avatar">ДЧ</div>
+              <div class="signature-info">
+                <div class="name">Дмитрий Черепахин</div>
+                <div class="role">Основатель «Мастерской Черепахина»</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Products ===== -->
+    <section class="products" id="products">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-label">Что я делаю</span>
+          <h2>Изделия мастерской</h2>
+          <p>От ротаторов для эхолокации до держателей удилищ — всё проектирую и печатаю сам, подбирая материалы под условия эксплуатации.</p>
+        </div>
+        <div class="products-grid">
+          <div class="product-card reveal">
+            <img class="product-card-img" src="https://images.pexels.com/photos/4302361/pexels-photo-4302361.jpeg?auto=compress&cs=tinysrgb&h=650&w=940" alt="Ротаторы и кронштейны" loading="lazy" />
+            <div class="product-card-body">
+              <div class="icon">📡</div>
+              <h3>Ротаторы и кронштейны для эхолокации</h3>
+              <p>Надёжное крепление эхолотов и датчиков на любой лодке — поворотные механизмы для удобного обзора и быстрого доступа.</p>
+            </div>
+          </div>
+          <div class="product-card reveal">
+            <img class="product-card-img" src="https://images.pexels.com/photos/209810/pexels-photo-209810.jpeg?auto=compress&cs=tinysrgb&h=650&w=940" alt="Адаптеры и переходники" loading="lazy" />
+            <div class="product-card-body">
+              <div class="icon">🔧</div>
+              <h3>Адаптеры, переходники и комплектующие</h3>
+              <p>Соединительные детали для лодок и моторов — точная подгонка под конкретные модели и нестандартные задачи.</p>
+            </div>
+          </div>
+          <div class="product-card reveal">
+            <img class="product-card-img" src="https://images.pexels.com/photos/39390834/pexels-photo-39390834.jpeg?auto=compress&cs=tinysrgb&h=650&w=940" alt="Держатели удилищ" loading="lazy" />
+            <div class="product-card-body">
+              <div class="icon">🎣</div>
+              <h3>Держатели удилищ и органайзеры</h3>
+              <p>Удобное размещение удилищ и снастей на борту — порядок под рукой, чтобы ничто не мешало наслаждаться рыбалкой.</p>
+            </div>
+          </div>
+          <div class="product-card reveal">
+            <img class="product-card-img" src="https://images.pexels.com/photos/20341728/pexels-photo-20341728.jpeg?auto=compress&cs=tinysrgb&h=650&w=940" alt="3D-печать на заказ" loading="lazy" />
+            <div class="product-card-body">
+              <div class="icon">🖨️</div>
+              <h3>Кастомные детали на заказ</h3>
+              <p>Разработка и 3D-печать деталей под индивидуальные задачи — пришлите чертёж или опишите идею, остальное за мной.</p>
+            </div>
+          </div>
+          <div class="product-card reveal">
+            <img class="product-card-img" src="https://images.pexels.com/photos/13760360/pexels-photo-13760360.jpeg?auto=compress&cs=tinysrgb&h=650&w=940" alt="Летние аксессуары" loading="lazy" />
+            <div class="product-card-body">
+              <div class="icon">☀️</div>
+              <h3>Летние аксессуары для лодок</h3>
+              <p>Материалы, не боящиеся палящего солнца, воды и постоянных вибраций от мотора — проверено на собственных выездах.</p>
+            </div>
+          </div>
+          <div class="product-card reveal">
+            <img class="product-card-img" src="https://images.pexels.com/photos/11514151/pexels-photo-11514151.jpeg?auto=compress&cs=tinysrgb&h=650&w=940" alt="Зимние аксессуары" loading="lazy" />
+            <div class="product-card-body">
+              <div class="icon">❄️</div>
+              <h3>Зимние аксессуары для рыбалки</h3>
+              <p>Пластик, спокойно переносящий мороз и случайные удары — надёжность в самых жёстких зимних условиях.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Principles ===== -->
+    <section class="principles" id="principles">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-label">Как я работаю</span>
+          <h2>Принципы мастерской</h2>
+          <p>Практичность, надёжность и честное отношение к каждому заказу — основа того, что я делаю.</p>
+        </div>
+        <div class="principles-grid">
+          <div class="principle-card reveal">
+            <div class="icon">🛡️</div>
+            <h3>Личная гарантия без лишних вопросов</h3>
+            <p>Если вы обнаружили дефект или в процессе работы что-то пошло не так — заменю деталь на новую за свой счёт. Ваше доверие для меня главное.</p>
+          </div>
+          <div class="principle-card reveal">
+            <div class="icon">🧪</div>
+            <h3>Проверка на практике</h3>
+            <p>Все новинки я испытываю на собственных выездах. Идеала с первого раза не бывает — поэтому внимательно отношусь к обратной связи и дорабатываю конструкции.</p>
+          </div>
+          <div class="principle-card reveal">
+            <div class="icon">🧊</div>
+            <h3>Материалы под условия</h3>
+            <p>Зимние аксессуары подбираю так, чтобы они переносили мороз и удары, а летние — чтобы не боялись солнца, воды и вибраций от мотора.</p>
+          </div>
+          <div class="principle-card reveal">
+            <div class="icon">🤝</div>
+            <h3>Всегда на связи</h3>
+            <p>Нужна консультация, помощь с подбором под вашу лодку или деталь под индивидуальные задачи? Смело пишите или звоните — с удовольствием помогу.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Marketplaces ===== -->
+    <section class="marketplaces" id="marketplaces">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-label">Магазины</span>
+          <h2>Где купить изделия</h2>
+          <p>Заказывайте на удобной площадке — ассортимент и качество везде одинаковы.</p>
+        </div>
+        <div class="marketplace-grid">
+          <a href="https://www.avito.ru/brands/420a2b983df6b48e661945f10a6c3cdc" target="_blank" rel="noopener" class="marketplace-card avito reveal">
+            <div class="mp-icon">A</div>
+            <h3>Авито</h3>
+            <p>Основная площадка — полный ассортимент изделий, кастомные заказы, консультации и отзывы.</p>
+            <span class="mp-link">
+              Перейти в магазин
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M7 7h10v10"/></svg>
+            </span>
+          </a>
+          <a href="#" class="marketplace-card ozon coming-soon reveal">
+            <div class="mp-icon">O</div>
+            <h3>Ozon <span class="coming-soon-badge">скоро</span></h3>
+            <p>Открытие магазина на Ozon запланировано — следите за обновлениями на этой странице.</p>
+            <span class="mp-link">Скоро открытие</span>
+          </a>
+          <a href="#" class="marketplace-card wildberries coming-soon reveal">
+            <div class="mp-icon">W</div>
+            <h3>Wildberries <span class="coming-soon-badge">скоро</span></h3>
+            <p>Магазин на Wildberries в планах — ассортимент и удобная доставка по всей России.</p>
+            <span class="mp-link">Скоро открытие</span>
+          </a>
+          <a href="#" class="marketplace-card market coming-soon reveal">
+            <div class="mp-icon">Я</div>
+            <h3>Яндекс Маркет <span class="coming-soon-badge">скоро</span></h3>
+            <p>Скоро вы сможете заказать изделия через Яндекс Маркет — удобно и с проверенными отзывами.</p>
+            <span class="mp-link">Скоро открытие</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Contact / CTA ===== -->
+    <section class="contact" id="contact">
+      <div class="container">
+        <div class="contact-inner reveal">
+          <h2>Нужна консультация или деталь под задачу?</h2>
+          <p>Всегда на связи! Помогу подобрать лучшее решение под вашу лодку и индивидуальные задачи. Ни хвоста, ни чешуи!</p>
+          <div class="contact-actions">
+            <a href="https://www.avito.ru/brands/420a2b983df6b48e661945f10a6c3cdc" target="_blank" rel="noopener" class="btn btn-primary">
+              Написать на Авито
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+            <a href="https://vk.ru/id5973591" target="_blank" rel="noopener" class="btn btn-secondary">Написать в VK</a>
+            <a href="#marketplaces" class="btn btn-secondary">Все магазины</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Footer ===== -->
+    <footer>
+      <div class="container">
+        <div class="footer-inner">
+          <div class="copyright">
+            <span class="brand">Мастерская Черепахина</span> · Дмитрий Черепахин © 2026
+          </div>
+          <div class="footer-links">
+            <a href="https://www.avito.ru/brands/420a2b983df6b48e661945f10a6c3cdc" target="_blank" rel="noopener">Авито</a>
+            <a href="https://vk.ru/id5973591" target="_blank" rel="noopener">VK</a>
+            <a href="#about">О мастере</a>
+            <a href="#products">Изделия</a>
+            <a href="#contact">Связаться</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Header scroll effect
+      const header = document.getElementById('header');
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 40) {
+          header.classList.add('scrolled');
+        } else {
+          header.classList.remove('scrolled');
+        }
+      });
+
+      // Scroll reveal animations
+      const revealElements = document.querySelectorAll('.reveal');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15 });
+
+      revealElements.forEach((el) => observer.observe(el));
+
+      // Mobile menu toggle
+      const mobileToggle = document.getElementById('mobileToggle');
+      const nav = document.querySelector('nav');
+      mobileToggle.addEventListener('click', () => {
+        if (nav.style.display === 'flex') {
+          nav.style.display = '';
+        } else {
+          nav.style.display = 'flex';
+          nav.style.position = 'absolute';
+          nav.style.top = '100%';
+          nav.style.right = '24px';
+          nav.style.flexDirection = 'column';
+          nav.style.background = 'var(--bg-elevated)';
+          nav.style.padding = '16px 24px';
+          nav.style.borderRadius = '12px';
+          nav.style.border = '1px solid var(--border)';
+          nav.style.gap = '14px';
+        }
+      });
+
+      // Close mobile menu on nav click
+      document.querySelectorAll('nav a').forEach((a) => {
+        a.addEventListener('click', () => {
+          if (window.innerWidth <= 720) {
+            nav.style.display = '';
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
